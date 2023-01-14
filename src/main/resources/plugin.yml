@@ -10,7 +10,7 @@ loadbefore: [ AntiAC ]
 commands:
   evenmorefish:
     usage: /<command> [name]
-    aliases: [ emf ]
+    aliases: [ emf, rs, rybarskasoutez, rybarskyevent, rybareni ]
 
 
 

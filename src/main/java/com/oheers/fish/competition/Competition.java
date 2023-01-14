@@ -39,7 +39,7 @@ public class Competition {
     public boolean adminStarted;
     public String competitionID;
     public Message startMessage;
-    long maxDuration, timeLeft;
+    public long maxDuration, timeLeft;
     Bar statusBar;
     long epochStartTime;
     List<Long> alertTimes;
