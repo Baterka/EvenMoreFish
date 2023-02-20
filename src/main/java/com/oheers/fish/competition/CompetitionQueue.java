@@ -6,7 +6,7 @@ import java.util.*;
 
 public class CompetitionQueue {
 
-    Map<Integer, Competition> competitions;
+    TreeMap<Integer, Competition> competitions;
     List<String> days = Arrays.asList("MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY");
 
     public void load() {
@@ -85,31 +85,17 @@ public class CompetitionQueue {
     }
 
     /**
-     * Puts a test competition into the competition queue and figures out the location of the test competition. If there's
-     * values after this, the next one's time is returned, otherwise the first competition's time is returned.
+     * Computes current time code and compares it with compettions map. If there's
+     * values after current time code, the next one's time is returned, otherwise the first competition's time is returned.
      *
      * @return The next competition starting timecode.
      */
     public int getNextCompetition() {
-        Competition competition = new Competition(-1, CompetitionType.LARGEST_FISH);
         int currentTimeCode = AutoRunner.getCurrentTimeCode();
-        if (this.competitions.containsKey(currentTimeCode)) return currentTimeCode;
-        this.competitions.put(currentTimeCode, competition);
-        int position = new ArrayList<>(this.competitions.keySet()).indexOf(currentTimeCode);
-        if (position == this.competitions.size() - 1) {
-            this.competitions.remove(currentTimeCode);
-            return this.competitions.keySet().iterator().next();
-        } else {
-            int i = 0;
-            for (Map.Entry<Integer, Competition> integerCompetitionEntry : this.competitions.entrySet()) {
-                if (i == position + 1) {
-                    this.competitions.remove(currentTimeCode);
-                    return integerCompetitionEntry.getKey();
-                }
-                i++;
-            }
-            this.competitions.remove(currentTimeCode);
-            return -1;
-        }
+
+        return competitions.keySet().stream()
+                .filter(key -> key >= currentTimeCode)
+                .findFirst()
+                .orElse(competitions.isEmpty() ? -1 : competitions.firstKey());
     }
 }

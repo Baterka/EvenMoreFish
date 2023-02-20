@@ -134,12 +134,16 @@ public class PlaceholderReceiver extends PlaceholderExpansion {
             switch (EvenMoreFish.active.competitionType) {
                 case MOST_FISH:
                     message = new Message(ConfigMessage.COMPETITION_TYPE_MOST).getRawMessage(false, false);
+                    break;
                 case SPECIFIC_FISH:
                     message = new Message(ConfigMessage.COMPETITION_TYPE_SPECIFIC).getRawMessage(false, false);
+                    break;
                 case SPECIFIC_RARITY:
                     message = new Message(ConfigMessage.COMPETITION_TYPE_SPECIFIC_RARITY).getRawMessage(false, false);
+                    break;
                 case LARGEST_TOTAL:
                     message = new Message(ConfigMessage.COMPETITION_TYPE_LARGEST_TOTAL).getRawMessage(false, false);
+                    break;
                 default:
                     message = new Message(ConfigMessage.COMPETITION_TYPE_LARGEST).getRawMessage(false, false);
             }
@@ -200,6 +204,10 @@ public class PlaceholderReceiver extends PlaceholderExpansion {
                     if (value == -1)
                         return "";
 
+                    if (EvenMoreFish.active.getCompetitionType() == CompetitionType.LARGEST_TOTAL) {
+                        return "&a&l" + value + "cm";
+                    }
+
                     Message message = new Message(ConfigMessage.PLACEHOLDER_FISH_MOST_FORMAT);
                     message.setAmount(Integer.toString((int) value));
                     return message.getRawMessage(true, true);
@@ -224,8 +232,9 @@ public class PlaceholderReceiver extends PlaceholderExpansion {
         return null;
     }
 
-    String getTimeUntilNextEvent(){
+    String getTimeUntilNextEvent() {
         int competitionStartTime = EvenMoreFish.competitionQueue.getNextCompetition();
+
         int currentTime = AutoRunner.getCurrentTimeCode();
         int remainingTime;
 
